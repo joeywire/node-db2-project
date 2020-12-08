@@ -5,17 +5,17 @@ exports.up = function(knex) {
     //id: Primary key, unique, not null
     table.increments();
     //VIN: string, unique, not null 
-    table.text('Vin', 128).unique().notNullable();
+    table.text('vin', 128).unique().notNullable();
     //Make: String, not null 
-    table.text('Make', 128).unique().notNullable();
+    table.text('make', 128).unique().notNullable();
     //Model: String, not null 
-    table.text('Model', 128).notNullable();
+    table.text('model', 128).notNullable();
     //mileage: Int, not null
-    table.integer('Mileage').notNullable();
+    table.integer('mileage').notNullable();
     //transmission type
-    table.text('TransmissionType');
+    table.text('transmissionType');
     //status of title  
-    table.text('TitleSatus');
+    table.text('titleStatus');
   });
 };
 
