@@ -1,18 +1,15 @@
 const express = require('express'); 
 const Car = require('./car-model'); 
+const middleware = require('../middleware');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  try {
-    const data = await Car.getAll();
-    res.status(200).json(data);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+    res.status(200).json(req.car);
+  
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', middleware.validateCarId, async (req, res) => {
   const { id } = req.params; 
   try {
     const car = await Car.getById(id);
@@ -22,7 +19,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', middleware.validateCarBody, async (req, res) => {
   const car = req.body;
   try {
     //This is 100x better than chained promises 
@@ -34,7 +31,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', middleware.validateCarId, middleware.validateCarBody, async (req, res) => {
   const { id } = req.params;
   const changes = req.body;
   try {
@@ -45,7 +42,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', middleware.validateCarId, async (req, res) => {
   const { id } = req.params;
   try {
     const deleted = await Car.delete(id);
